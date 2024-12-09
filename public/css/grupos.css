@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+div:where(.swal2-container) h2:where(.swal2-title) {
+  color: #333 !important;
+}
+
+body, ul {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none !important;
+}
+
+body {
+    font-family: "Montserrat", sans-serif !important;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #466d49 !important;
+}
+
+header {
+  background-color: #333;
+}
+
+header a {
+  color: white !important;
+}
+
+h1 {
+  color: white !important;
+}
+
+h2 {
+  color: white !important;
+}
+
+label {
+  color: white;
+}
+
+select {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.access-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 8vw;
+}
+
+.access-container label {
+  color: gray;
+}
+
+.continueBtn {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  height: 3vw;
+  transition: all .3s ease;
+}
+
+.continueBtn:hover {
+  background-color: #585858;
+  transition: all .3s ease;
+}
+
+.manage-container {
+  display: none;
+  justify-content: center;
+  margin-top: 8vw;
+}
+
+.manage-subcontainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #333;
+  padding: 2vw 2vw 4vw 2vw;
+  border-radius: 8px;
+}
+
+#acciones {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4vw;
+}
+
+#acciones button {
+  width: 100%;
+  border: none;
+  margin-bottom: 1vw;
+  padding: 1.5vw;
+  border-radius: 10px;
+  transition: all .2s ease;
+}
+
+#acciones button:hover {
+  background-color: #6cc6ef;
+  color: white;
+  transition: all .2s ease;
+}
+
+.addgroup-container {
+  display: none;
+  justify-content: center;
+  margin-top: 8vw;
+}
+
+.addgroup-subcontainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #333;
+  padding: 2vw 2vw 4vw 2vw;
+  border-radius: 8px;
+}
+
+#grupoForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#compañero1 {
+  padding: 8px;
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  margin-bottom: 1vw;
+  cursor: pointer;
+  outline: none;
+}
+
+#compañero2 {
+  padding: 8px;
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+#addGroup {
+  margin-top: 2vw;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  transition: all .2s ease;
+}
+
+#addGroup:hover {
+  background-color: #6cc6ef;
+  color: white;
+  transition: all .2s ease;
+}
+
+@media (max-width: 768px) {
+  .access-form-container {
+    width: 22rem;
+  }
+
+  .continueBtn {
+    width: 100%;
+    height: 6rem;
+  }
+
+  .manage-subcontainer {
+    padding: 2rem;
+    width: 22rem;
+    height: 28rem;
+  }
+
+  #acciones button {
+    width: 100%;
+    height: 6rem;
+    margin-top: 0.5rem;
+  }
+
+  .addgroup-subcontainer {
+    padding: 2rem;
+    width: 22rem;
+    height: 28rem;
+  }
+
+  .add-form-container {
+    width: 18rem;
+  }
+  
+  #addGroup{
+    margin-top: 4rem;
+  }
+
+  select {
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

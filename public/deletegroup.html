@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Grupo</title>
+</head>
+<body>
+  <h1>Eliminar Grupo</h1>
+  
+  <!-- Formulario -->
+  <form id="eliminarGrupoForm">
+    <label for="grupoId">ID del Grupo:</label>
+    <input type="text" id="grupoId" name="grupoId" placeholder="Ingrese el ID del grupo" required>
+    <button type="submit">Eliminar Grupo</button>
+  </form>
+
+  <!-- Mensajes -->
+  <div id="mensaje"></div>
+
+  <script>
+    // Referencia al formulario
+    const form = document.getElementById('eliminarGrupoForm');
+    const mensajeDiv = document.getElementById('mensaje');
+
+    // Manejar el evento de submit
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevenir recarga de página
+
+      const grupoId = document.getElementById('grupoId').value; // Obtener ID del grupo
+
+      try {
+        // Realizar la solicitud DELETE al servidor
+        const response = await fetch(`/api/grupos/${grupoId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Manejar la respuesta del servidor
+        if (response.ok) {
+          mensajeDiv.innerText = 'Grupo eliminado con éxito.';
+          mensajeDiv.style.color = 'green';
+        } else {
+          const error = await response.json();
+          mensajeDiv.innerText = error.msg || 'Error al eliminar el grupo.';
+          mensajeDiv.style.color = 'red';
+        }
+      } catch (err) {
+        mensajeDiv.innerText = 'Error de conexión con el servidor.';
+        mensajeDiv.style.color = 'red';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

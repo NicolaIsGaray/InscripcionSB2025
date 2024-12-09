@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargar Alumnos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h1 class="text-center">Cargar Alumnos</h1>
+    <form id="form-cargar-alumnos" class="card p-4 shadow">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Juan Pérez" required>
+      </div>
+      <div class="mb-3">
+        <label for="dni" class="form-label">DNI</label>
+        <input type="number" id="dni" name="dni" class="form-control" placeholder="12345678" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Cargar Alumno</button>
+    </form>
+    <div id="mensaje" class="mt-3"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.getElementById('form-cargar-alumnos');
+    const mensaje = document.getElementById('mensaje');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const dni = document.getElementById('dni').value.trim();
+
+      try {
+        // Enviar datos al backend
+        const response = await axios.post('/api/alumnos/registrar', { nombre, dni });
+
+        // Mostrar mensaje de éxito
+        mensaje.innerHTML = `
+          <div class="alert alert-success">
+            Alumno cargado exitosamente: ${response.data.nombre} (${response.data.dni})
+          </div>
+        `;
+        form.reset();
+      } catch (error) {
+        console.error('Error al cargar alumno:', error);
+        mensaje.innerHTML = `
+          <div class="alert alert-danger">
+            Error al cargar alumno. Inténtalo de nuevo.
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
