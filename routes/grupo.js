@@ -3,8 +3,9 @@ const router = express.Router();
 const Grupo = require('../models/Grupo');
 const Alumno = require('../models/Alumno');
 
+const ExcelJS = require('exceljs');
+
 // Crear un grupo
-// POST /api/grupos/crear
 // POST /api/grupos/crear
 router.post('/crear', async (req, res) => {
   const { dni, invitados } = req.body;
@@ -167,6 +168,55 @@ router.get('/', async (req, res) => {
   } catch (error) {
     console.error('Error al obtener los grupos:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
+  }
+});
+
+router.get('/excel-sheet', async (req, res) => {
+  try {
+    // Obtener los datos de los grupos desde la base de datos
+    const grupos = await Grupo.find();
+
+    // Crear un nuevo libro de trabajo
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Grupos');
+
+    // Configurar el ancho de las columnas
+    worksheet.columns = [
+      { key: 'grupo', width: 15 }, // Ancho para la columna de "Grupo"
+      { key: 'nombre', width: 35 }, // Ancho para la columna de "Nombre"
+      { key: 'dni', width: 15 },    // Ancho para la columna de "DNI"
+    ];
+
+    // Recorrer cada grupo y agregar sus datos
+    grupos.forEach((grupo, index) => {
+      // Agregar encabezado del grupo y las columnas "Nombre" y "DNI"
+      worksheet.addRow([`Grupo ${index + 1}`, 'Nombre', 'DNI']);
+
+      // Agregar los alumnos del grupo
+      grupo.alumnos.forEach(alumno => {
+        worksheet.addRow([null, alumno.nombre, alumno.dni]); // Primera columna vacía para alineación
+      });
+
+      // Agregar una fila vacía para separar grupos
+      worksheet.addRow([]);
+    });
+
+    // Configurar la respuesta como archivo Excel
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=grupos.xlsx'
+    );
+
+    // Enviar el archivo Excel al cliente
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error('Error al generar el archivo Excel:', error);
+    res.status(500).send('Error al generar el archivo Excel');
   }
 });
 
