@@ -12,11 +12,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkAlumno(dni, info);
   }
 
+  const dniCheck = async () => {
+    let response = await axios.get("./api/alumnos/alumnosAll");
+    const dniCheckResult = response.data;
+    return dniCheckResult;
+  }
+
+  const dniCheckings = await dniCheck();
+
   dniForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const inputDni = document.getElementById('dni').value;
     if (inputDni) {
-      window.location.href = `${window.location.pathname}?dni=${encodeURIComponent(inputDni)}`;
+      dniCheckings.forEach(dniChecking => {
+        if (inputDni === dniChecking.dni) {
+          window.location.href = `${window.location.pathname}?dni=${encodeURIComponent(inputDni)}`;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "DNI no encontrado",
+            text: 'Porfavor, revisa que ingresaste bien tu  DNI.',
+          });
+        }
+      });
     }
   });
 
