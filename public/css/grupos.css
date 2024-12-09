@@ -27,6 +27,10 @@ header a {
   color: white !important;
 }
 
+header a:hover {
+  color: rgb(189, 189, 189) !important;
+}
+
 h1 {
   color: white !important;
 }

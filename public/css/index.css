@@ -22,6 +22,10 @@ header a {
   color: white !important;
 }
 
+header a:hover {
+  color: rgb(189, 189, 189) !important;
+}
+
 .contenedor-grupos {
   display: flex;
   flex-direction: column;
