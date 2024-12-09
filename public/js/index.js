@@ -14,6 +14,8 @@ async function renderizarTodosLosGrupos() {
   }
 }
 
+// Información de los miembros del grupo
+let contadorGrupos = 1;
 // Función para renderizar un solo grupo (recibe el objeto del grupo directamente)
 function renderizarGrupo(grupo) {
   if (!grupo) return;
@@ -22,19 +24,18 @@ function renderizarGrupo(grupo) {
   const cuadro = document.createElement("div");
   cuadro.className = "grupo-cuadro";
 
-  // Información de los miembros del grupo
   const alumnosInfo = `
-      <h4>Miembros</h4>
-      <ul>
-        ${grupo.alumnos
-          .map(
-            (alumno) => `
-          <li>${alumno.nombre || "Sin nombre"}</li>
-        `
-          )
-          .join("")}
-      </ul>
-    `;
+    <h4>Grupo ${contadorGrupos++}</h4>
+    <ul>
+     ${grupo.alumnos
+       .map(
+          (alumno) => `
+       <li>${alumno.nombre || "Sin nombre"}</li>
+      `
+       )
+       .join("")}
+    </ul>
+          `;
 
   // Insertar la información en el cuadro
   cuadro.innerHTML = `
@@ -45,8 +46,6 @@ function renderizarGrupo(grupo) {
 
   // Añadir el cuadro al contenedor
   contenedor.appendChild(cuadro);
-
-  console.log(grupo);
   
 }
 // Llamar a la función para renderizar todos los grupos al cargar la página
