@@ -155,7 +155,8 @@ async function gestionarInvitacion(dni, invitacion) {
     showCancelButton: true,
     confirmButtonText: "Unirse",
     cancelButtonText: "Rechazar",
-    allowOutsideClick: false
+    allowOutsideClick: false,
+    allowEscapeKey: false
   });
 
   try {
