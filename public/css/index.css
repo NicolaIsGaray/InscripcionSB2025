@@ -99,7 +99,6 @@ header a:hover {
   display: flex;
   flex-direction: column;
   width: 50%;
-  background-color: #ffffff65;
   padding: 2vw;
   margin: 2vw;
   color: white;
@@ -109,51 +108,6 @@ header a:hover {
 
 .mensaje-bienvenida-pc h3 {
   text-align: center;
-}
-
-.mensaje-bienvenida-mv {
-  background-color: #ffffff5d;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
-  display: none;
-}
-
-.mensaje-bienvenida-mv h3 {
-  text-align: center;
-  font-size: 1.6rem;
-  color: #ffffff;
-  margin-bottom: 15px;
-}
-
-.mensaje-bienvenida-mv ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.mensaje-bienvenida-mv li {
-  font-size: 1rem;
-  color: #ffffff;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-@media (max-width: 600px) {
-  .mensaje-bienvenida-mv {
-    padding: 15px;
-    margin: 10px;
-  }
-
-  .mensaje-bienvenida-mv h3 {
-    font-size: 1.4rem;
-  }
-
-  .mensaje-bienvenida-mv li {
-    font-size: 0.9rem;
-  }
 }
 
 #deco3 {
@@ -351,6 +305,10 @@ header a:hover {
     content: "Info";
   }
 
+  #fg-h {
+    display: none !important;
+  }
+
   .grupo-cuadro {
     width: 80%; /* Para pantallas pequeñas */
     margin: 2vw 0;
@@ -380,7 +338,7 @@ header a:hover {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 390px) {
   .mensaje-bienvenida-pc {
     width: 75%;
     background-color: transparent;

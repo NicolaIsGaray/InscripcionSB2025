@@ -193,6 +193,11 @@ select {
   #info-inst::before {
     content: "Info";
   }
+
+  #fg-h {
+    display: none !important;
+  }
+
   .access-form-container {
     width: 22rem;
   }

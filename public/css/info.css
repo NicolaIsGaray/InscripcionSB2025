@@ -97,6 +97,10 @@ footer {
     width: 22rem;
   }
 
+  #fg-h {
+    display: none !important;
+  }
+
   #info-inst::before {
     content: "Info";
   }

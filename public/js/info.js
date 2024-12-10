@@ -32,6 +32,6 @@ contactAlert.addEventListener('click', (e) => {
     `,
     icon: "info",
     showCancelButton: false,
-    showConfirmButton: false,
+    showConfirmButton: true,
   });
 });
