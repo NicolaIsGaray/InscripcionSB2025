@@ -57,13 +57,27 @@ header a:hover {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 8vw;
+  margin-bottom: 4vw;
 }
 
 .togroup-container {
   display: flex;
   width: 25%;
   justify-content: center;
+}
+
+#contador {
+  background-color: #333;
+  padding: 2vw;
+  width: 22%;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid white;
+  text-align: center;
+}
+
+#contador h2 {
+  font-weight: 600;
 }
 
 .bienvenida-container a {
@@ -335,6 +349,11 @@ header a:hover {
     display: none !important;
   }
 
+  #contador {
+    width: 54%;
+    margin-top: 2rem;
+  }
+
   .grupo-cuadro {
     width: 80%; /* Para pantallas pequeñas */
     margin: 2vw 0;
@@ -381,6 +400,10 @@ header a:hover {
 
   .deco-div {
     display: none;
+  }
+
+  #contador {
+    width: 54%;
   }
 }
 
