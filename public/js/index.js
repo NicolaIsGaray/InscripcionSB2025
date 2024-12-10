@@ -91,51 +91,52 @@ function renderizarGrupo(grupo) {
 // Llamar a la función para renderizar todos los grupos al cargar la página
 renderizarTodosLosGrupos();
 
-// Función para inicializar el contador con una fecha límite fija
-function inicializarContador() {
-  // Intenta obtener la fecha límite del almacenamiento local
-  let fechaLimite = localStorage.getItem("fechaLimite");
+// URL de la API
+const API_URL = "/fecha-limite";
 
-  // Si no hay fecha límite almacenada, la establece como 7 días desde ahora
-  if (!fechaLimite) {
-    const ahora = new Date(); // Fecha actual
-    fechaLimite = new Date(ahora.getTime() + 7 * 24 * 60 * 60 * 1000); // Fecha actual + 7 días
-    localStorage.setItem("fechaLimite", fechaLimite); // Guardar en localStorage
-  } else {
-    fechaLimite = new Date(fechaLimite); // Convierte el valor de string a una fecha
+// Función para obtener la fecha límite desde el servidor
+async function obtenerFechaLimite() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    return new Date(data.fechaLimite); // Convierte la fecha a objeto Date
+  } catch (error) {
+    console.error("Error al obtener la fecha límite:", error);
+    return null;
   }
-
-  return fechaLimite;
 }
 
-// Función para actualizar el contador en pantalla
+// Función para actualizar el contador
 function actualizarContador(fechaLimite) {
   const ahora = new Date(); // Fecha actual
   const tiempoRestante = fechaLimite - ahora; // Tiempo restante en milisegundos
 
-  // Si el contador terminó
   if (tiempoRestante <= 0) {
     document.getElementById("tiempo-restante").innerText = "¡La página ha cerrado!";
     clearInterval(intervalo); // Detiene el contador
     return;
   }
 
-  // Calcula días, horas, minutos y segundos
   const dias = Math.floor(tiempoRestante / (1000 * 60 * 60 * 24));
   const horas = Math.floor((tiempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
   const segundos = Math.floor((tiempoRestante % (1000 * 60)) / 1000);
 
-  // Actualiza el contador en el HTML
   document.getElementById("tiempo-restante").innerText =
     `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
 }
 
-// Inicializa el contador con la fecha límite persistente
-const fechaLimite = inicializarContador();
+// Inicializar el contador
+async function iniciarContador() {
+  const fechaLimite = await obtenerFechaLimite();
+  if (fechaLimite) {
+    // Llama a la función de actualización cada segundo
+    setInterval(() => actualizarContador(fechaLimite), 1000);
+    actualizarContador(fechaLimite); // Llama una vez para mostrarlo inmediatamente
+  } else {
+    document.getElementById("tiempo-restante").innerText = "Error al cargar el contador.";
+  }
+}
 
-// Llama a la función de actualización cada segundo
-const intervalo = setInterval(() => actualizarContador(fechaLimite), 1000);
-
-// Llama una vez inmediatamente para mostrar el contador
-actualizarContador(fechaLimite);
+// Inicia el contador al cargar la página
+iniciarContador();
