@@ -380,7 +380,7 @@ header a:hover {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 380px) {
   .mensaje-bienvenida-pc {
     width: 75%;
     background-color: transparent;
