@@ -28,6 +28,10 @@ const grupoSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    confirmado: {
+      type: Boolean,
+      default: false,
+    }
   },
   alumnos: [{
     dni: {

@@ -11,20 +11,31 @@ router.post('/crear', async (req, res) => {
   const { dni, invitados } = req.body;
 
   try {
+    // Buscar al líder
     const lider = await Alumno.findOne({ dni });
     if (!lider) return res.status(404).json({ message: 'Líder no encontrado.' });
 
+    // Validar que el líder no lidere o pertenezca a otro grupo
     const liderGrupo = await Grupo.findOne({ "lider.dni": dni });
     if (liderGrupo) return res.status(400).json({ message: 'Ya lideras un grupo.' });
 
     const integrantesGrupo = await Grupo.findOne({ "alumnos.dni": dni });
     if (integrantesGrupo) return res.status(400).json({ message: 'Ya perteneces a un grupo.' });
 
+    // Buscar la información de los invitados
     const invitadosInfo = await Alumno.find({ dni: { $in: invitados } });
 
+    // Crear el grupo
     const nuevoGrupo = new Grupo({
-      lider: { dni: lider.dni, nombre: lider.nombre },
-      alumnos: [lider, ...invitadosInfo],
+      lider: { dni: lider.dni, nombre: lider.nombre, confirmado: true }, // Líder confirmado
+      alumnos: [
+        { dni: lider.dni, nombre: lider.nombre, confirmado: true }, // También confirmado en alumnos
+        ...invitadosInfo.map(inv => ({
+          dni: inv.dni,
+          nombre: inv.nombre,
+          confirmado: false, // Los invitados no están confirmados inicialmente
+        }))
+      ],
     });
 
     await nuevoGrupo.save();
@@ -42,6 +53,22 @@ router.post('/crear', async (req, res) => {
   }
 });
 
+// Ruta para verificar si el alumno es líder
+router.get('/verificar-lider/:dni', async (req, res) => {
+  const { dni } = req.params;
+
+  try {
+    const liderGrupo = await Grupo.findOne({ "lider.dni": dni });
+    if (liderGrupo) {
+      return res.status(200).json({ lidera: true });
+    }
+
+    res.status(200).json({ lidera: false });
+  } catch (error) {
+    console.error('Error al verificar si es líder:', error);
+    res.status(500).json({ message: 'Error del servidor.' });
+  }
+});
 
 
 // Obtener invitaciones para un alumno
@@ -49,6 +76,11 @@ router.get('/invitaciones/:dni', async (req, res) => {
   const { dni } = req.params;
 
   try {
+    const liderGrupo = await Grupo.findOne({ "lider.dni": dni });
+    if (liderGrupo) {
+      return res.status(403).json({ message: "No puedes ver invitaciones porque ya lideras un grupo." });
+    }
+
     // Buscar grupos donde el alumno está invitado pero aún no ha aceptado
     const grupos = await Grupo.find({
       alumnos: { $elemMatch: { dni } } // Buscar en el array de alumnos por DNI

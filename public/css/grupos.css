@@ -50,6 +50,27 @@ select {
   text-overflow: ellipsis;
 }
 
+#gestionUl {
+  list-style: none;
+  text-align: justify;
+}
+
+#gestionUl li {
+  margin-bottom: 0.5em;
+}
+
+#subLi ul {
+  list-style: disc;
+}
+
+.dir-cor-tel {
+  text-align: justify !important;
+}
+
+.dir-cor-tel h4{
+  margin-top: 1em;
+}
+
 .access-container {
   display: flex;
   justify-content: center;
@@ -164,7 +185,14 @@ select {
   transition: all .2s ease;
 }
 
+#info-inst::before {
+  content: "Información Institucional";
+}
+
 @media (max-width: 768px) {
+  #info-inst::before {
+    content: "Info";
+  }
   .access-form-container {
     width: 22rem;
   }

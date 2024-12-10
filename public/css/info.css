@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* General Reset */
+body, ul {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif !important;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #466d49 !important;
+}
+
+header {
+  background-color: #333;
+}
+
+header a {
+  color: white !important;
+}
+
+header a:hover {
+  color: rgb(189, 189, 189) !important;
+}
+
+#gestionUl {
+  list-style: none;
+  text-align: justify;
+}
+
+#gestionUl li {
+  margin-bottom: 0.5em;
+}
+
+#subLi ul {
+  list-style: disc;
+}
+
+.dir-cor-tel {
+  text-align: justify !important;
+}
+
+.dir-cor-tel h4{
+  margin-top: 1em;
+}
+
+.regimen-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 6vw;
+}
+
+.regimen-info {
+  background-color: #3333336e;
+  padding: 4vw;
+  color: whitesmoke;
+  text-align: justify !important;
+}
+
+.uniforme-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #3333336e;
+  border: 1px solid #333333;
+  color: whitesmoke;
+  margin-bottom: 2vw;
+  padding-top: 4vw;
+  padding-bottom: 4vw;
+}
+
+.uniforme-container img {
+  width: 100%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vw;
+}
+
+#foot-logo {
+  height: auto;
+  width: 64px;
+}
+
+#info-inst::before {
+  content: "Información Institucional";
+}
+
+@media (max-width: 768px) {
+  .grupo-cuadro {
+    width: 22rem;
+  }
+
+  #info-inst::before {
+    content: "Info";
+  }
+}
