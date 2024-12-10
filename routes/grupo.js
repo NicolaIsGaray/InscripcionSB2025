@@ -133,7 +133,7 @@ router.post('/invitaciones/gestionar', async (req, res) => {
       // Confirmar al alumno en el grupo
       grupo.alumnos[invitacionIndex].confirmado = true;
 
-      // Marcar el grupo como completo si alcanza el límite de 3 integrantes confirmados
+      // Verificar si hay suficientes confirmados para marcar el grupo como completo
       const confirmados = grupo.alumnos.filter(alumno => alumno.confirmado).length;
       if (confirmados >= 3) {
         grupo.completo = true;
@@ -147,9 +147,24 @@ router.post('/invitaciones/gestionar', async (req, res) => {
       mensaje = 'Rechazaste la invitación.';
     }
 
+    // Actualizar el estado del alumno en la colección de alumnos
+    const alumno = await Alumno.findOne({ dni });
+    if (!alumno) {
+      return res.status(404).json({ message: 'Alumno no encontrado.' });
+    }
+
+    if (aceptar) {
+      alumno.enGrupo = true;
+      alumno.grupoId = grupo._id; // Asociar el grupo al alumno
+    } else {
+      alumno.enGrupo = false;
+      alumno.grupoId = null; // Eliminar la asociación si rechaza
+    }
+
+    await alumno.save();
     await grupo.save();
 
-    // Devolver el estado del grupo y los cambios
+    // Devolver el estado actualizado del grupo
     res.status(200).json({
       message: mensaje,
       grupo: {
@@ -164,8 +179,6 @@ router.post('/invitaciones/gestionar', async (req, res) => {
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 });
-
-
 
 // Eliminar un grupo
 router.delete('/:grupoId', async (req, res) => {

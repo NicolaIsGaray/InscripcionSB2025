@@ -104,42 +104,25 @@ crearGrupoBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const dni = urlParams.get('dni');
 
-    // Hacer una solicitud al backend para verificar si el alumno ya lidera un grupo
-    const response = await axios.get(`/api/grupos/verificar-lider/${dni}`);
-    
-    if (response.data.lidera) {
-      // Si el alumno ya lidera un grupo, mostrar una advertencia
+    const response = await axios.get(`/api/alumnos/find/${dni}`);
+    const alumno = response.data;
+
+    if (alumno.enGrupo) {
       Swal.fire({
         icon: "warning",
-        title: "Ya lideras un grupo.",
-        text: 'No puedes crear otro grupo. Espera a que tus compañeros acepten entrar.',
+        title: "Ya estás inscrito/a en un grupo.",
+        text: 'No puedes crear otro grupo. Ve a "Ver Invitaciones" para gestionarlas.',
       });
-      return;  // Detener la ejecución para que no se permita crear otro grupo
-    }
-
-    // Si el alumno no lidera un grupo, continuar con la lógica de creación de grupo
-    const alumnosResponse = await axios.get('/api/alumnos/alumnosAll');
-    const alumnos = alumnosResponse.data;
-
-    const alumno = alumnos.find(alumno => alumno.dni === dni);
-    
-    if (alumno) {
-      if (alumno.enGrupo) {
-        Swal.fire({
-          icon: "warning",
-          title: "Ya estás inscrito/a en un grupo.",
-          text: 'Ve a "Ver Invitaciones" para aceptarlo o rechazarlo.',
-        });
-        return;
-      } else {
-        accionesContainer.style.display = "none";
-        addGroupContainer.style.display = "flex";
-      }
+    } else {
+      accionesContainer.style.display = "none";
+      addGroupContainer.style.display = "flex";
     }
   } catch (error) {
-    console.error('Error al cargar la verificación:', error);
+    console.error("Error al cargar la verificación:", error);
+    Swal.fire("Error", "Hubo un problema al verificar el estado.", "error");
   }
 });
+
 
 async function gestionarInvitacion(dni, invitacion) {
   const result = await Swal.fire({
@@ -159,22 +142,27 @@ async function gestionarInvitacion(dni, invitacion) {
     allowEscapeKey: false
   });
 
+  const aceptar = result.isConfirmed; // Determina si aceptó o rechazó la invitación
+
   try {
-    const aceptar = result.isConfirmed; // Si el usuario acepta la invitación
     const response = await axios.post('/api/grupos/invitaciones/gestionar', {
       dni,
       grupoId: invitacion.grupoId,
-      aceptar, // Enviar si el usuario acepta o no
+      aceptar,
     });
 
-    Swal.fire(
-      aceptar ? "¡Unido!" : "Rechazado",
-      aceptar ? "Te has unido al grupo." : "No te uniste al grupo.",
-      aceptar ? "success" : "info"
-    ).then(() => {
-      // Redirige después de que el usuario haga clic en "Ok"
-      window.location.href = "../index.html";
-    });
+    // Actualizar estado en frontend
+    if (!aceptar) {
+      const alumno = await axios.get(`/api/alumnos/find/${dni}`);
+      if (!alumno.data.enGrupo) {
+        // Si el estado "enGrupo" es false, aseguramos que se refleje en la interfaz
+        Swal.fire("Rechazado", "Has rechazado la invitación.", "info");
+        // Redirigir o recargar para reflejar cambios
+        window.location.href = `${window.location.pathname}?dni=${encodeURIComponent(dni)}`;
+      }
+    } else {
+      Swal.fire("¡Unido!", "Te has unido al grupo.", "success");
+    }
   } catch (error) {
     console.error("Error al gestionar invitación:", error.response?.data || error.message);
     Swal.fire("Error", "No se pudo gestionar la invitación.", "error");
