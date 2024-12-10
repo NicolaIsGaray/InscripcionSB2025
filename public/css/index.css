@@ -64,6 +64,7 @@ header a:hover {
   display: flex;
   width: 25%;
   justify-content: center;
+  z-index: 2;
 }
 
 #contador {
