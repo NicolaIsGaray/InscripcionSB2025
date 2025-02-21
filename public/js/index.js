@@ -89,7 +89,7 @@ function renderizarGrupo(grupo) {
   contenedor.appendChild(cuadro);
 }
 // Llamar a la función para renderizar todos los grupos al cargar la página
-renderizarTodosLosGrupos();
+// renderizarTodosLosGrupos();
 
 // URL de la API
 const API_URL = "/fecha-limite";
