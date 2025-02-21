@@ -416,6 +416,11 @@ header a:hover {
 }
 
 @media (max-width: 480px) {
+
+  .title-news {
+    margin-top: 12vh;
+  }
+
   .grupo-cuadro {
     width: 90%; /* Ajusta aún más para pantallas muy pequeñas */
     margin: 2rem 0;
